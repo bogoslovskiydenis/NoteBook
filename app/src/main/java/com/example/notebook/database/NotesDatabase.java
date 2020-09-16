@@ -10,15 +10,15 @@ import com.example.notebook.dao.NoteDao;
 import com.example.notebook.entities.Note;
 
 @Database(entities = Note.class, version = 1, exportSchema = false)
-public abstract class NoteDatabase extends RoomDatabase {
+public abstract class NotesDatabase extends RoomDatabase {
 
-    private static NoteDatabase notesDatabase;
+    private static NotesDatabase notesDatabase;
 
-    private static synchronized NoteDatabase getInstance(Context context) {
+    public static synchronized NotesDatabase getDatabase(Context context) {
         if (notesDatabase == null) {
             notesDatabase = Room.databaseBuilder(
                     context,
-                    NoteDatabase.class,
+                    NotesDatabase.class,
                     "notes_db"
             ).build();
         }

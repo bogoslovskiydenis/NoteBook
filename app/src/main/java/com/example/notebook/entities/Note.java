@@ -14,11 +14,20 @@ public class Note implements Serializable {
     @ColumnInfo(name = "title")
     private String title;
     @ColumnInfo(name = "date_time")
-    private String datetime;
+    private String dateTime;
     @ColumnInfo(name = "subtitle")
     private String subtitle;
     @ColumnInfo(name = "note_text")
     private String noteText;
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
     @ColumnInfo(name = "image_path")
     private String imagePath;
     @ColumnInfo(name = "color")
@@ -42,13 +51,7 @@ public class Note implements Serializable {
         this.title = title;
     }
 
-    public String getDatetime() {
-        return datetime;
-    }
 
-    public void setDatetime(String datetime) {
-        this.datetime = datetime;
-    }
 
     public String getSubtitle() {
         return subtitle;
@@ -93,6 +96,6 @@ public class Note implements Serializable {
     @NonNull
     @Override
     public String toString() {
-        return title + " : " + datetime;
+        return title + " : " + dateTime;
     }
 }

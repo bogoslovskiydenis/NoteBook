@@ -4,21 +4,29 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.notebook.R;
+import com.example.notebook.adapters.NotesAdapter;
 import com.example.notebook.database.NotesDatabase;
 import com.example.notebook.entities.Note;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_ADD_NOTE = 1;
+
+    private RecyclerView notesRecyclerView;
+    private List<Note> noteList;
+    private NotesAdapter notesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +38,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivityForResult(
-                        new Intent(getApplicationContext(), CreateNoteActivity.class), REQUEST_CODE_ADD_NOTE
+                        new Intent(getApplicationContext(), CreateNoteActivity.class),
+                        REQUEST_CODE_ADD_NOTE
                 );
             }
         });
+        notesRecyclerView = findViewById(R.id.notesRecyclerView);
+        notesRecyclerView.setLayoutManager(
+                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        );
+        noteList = new ArrayList<>();
+        notesAdapter = new NotesAdapter(noteList);
+        notesRecyclerView.setAdapter(notesAdapter);
 
         getNotes();
     }
@@ -52,9 +68,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(List<Note> notes) {
                 super.onPostExecute(notes);
-                Log.d("MY_NOTES", notes.toString());
+                /*
+                проверить , пуст ли список заметок, это означает, что приложение только что запущено, так как мы его объявили
+                в качестве глобальной переменной, в этом случае мы добавляем заметки из базы данных в эту заметку и notyfy
+                адаптер о новом наборе данных.
+                В другом случае, если список заметок не пуст, значит, заметки уже загружены из базы данных, поэтому мы
+                просто добавление только последней заметки в список заметок и адаптера nptify о вставленной новой заметке. И последнее
+                мы прокрутили наш recycler view наверх
+                */
+
+                if (noteList.size() == 0) {
+                    noteList.addAll(notes);
+                    notesAdapter.notifyDataSetChanged();
+                } else {
+                    noteList.add(0, notes.get(0));
+                    notesAdapter.notifyItemInserted(0);
+                }
+                notesRecyclerView.smoothScrollToPosition(0);
             }
         }
         new GetNotesTask().execute();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK){
+            getNotes();
+        }
     }
 }

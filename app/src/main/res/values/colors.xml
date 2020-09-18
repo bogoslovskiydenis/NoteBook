@@ -11,11 +11,11 @@
     <color name="colorTextSubtitle">#CFCFCF</color>
     <color name="colorDefaultNoteColor">#333333</color>
     <color name="colorNoteSubtitleText">#FAFAFA</color>
-    <color name="colorMiscellanaeousBackgr">#1F1F1F</color>
+    <color name="colorMiscellaneousBackground">#1F1F1F</color>
     <color name="colorNoteColor2">#EFB337</color>
     <color name="colorNoteColor3">#FB4943</color>
     <color name="colorNoteColor4">#344DFA</color>
     <color name="colorNoteColor5">#000000</color>
     <color name="colorDelete">#ff4842</color>
-    <color name="colorSearchBackgr">#333333</color>
+    <color name="colorSearchBackground">#333333</color>
 </resources>

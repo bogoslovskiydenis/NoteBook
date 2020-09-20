@@ -58,6 +58,8 @@ public class CreateNoteActivity extends AppCompatActivity {
 
     private AlertDialog dialogAddUrl;
 
+    private Note alreadyAvailableNote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,10 +98,33 @@ public class CreateNoteActivity extends AppCompatActivity {
 
         selectNoteColor = "#333333";
         selectedImagePath = "";
+        //Проверка REQUEST_CODE_UPDATE_NOTE в noteClickedPosition (isViewOrUpdate , note) in MainActivity
+        if (getIntent().getBooleanExtra("isViewOrUpdate", false)) {
+            alreadyAvailableNote = (Note) getIntent().getSerializableExtra("note");
+            setViewOrUpdateNote();
+        }
 
         initMiscellaneous();
         //Индикатор Цвета
         setSubtitleIndicator();
+    }
+
+    //View Update Note
+    private void setViewOrUpdateNote() {
+        inputNoteTitle.setText(alreadyAvailableNote.getTitle());
+        inputNoteSubtitle.setText(alreadyAvailableNote.getSubtitle());
+        inputNoteText.setText(alreadyAvailableNote.getNoteText());
+        textDataTime.setText(alreadyAvailableNote.getDateTime());
+        //Проверка imageNote / textWebURl
+        if (alreadyAvailableNote.getImagePath() != null && alreadyAvailableNote.getImagePath().trim().isEmpty()) {
+            imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
+            imageNote.setVisibility(View.VISIBLE);
+            selectedImagePath = alreadyAvailableNote.getImagePath();
+        }
+        if (alreadyAvailableNote.getImagePath() != null && alreadyAvailableNote.getWebLink().trim().isEmpty()) {
+            textWebURL.setText(alreadyAvailableNote.getWebLink());
+            layoutWebURL.setVisibility(View.VISIBLE);
+        }
     }
 
     //Сохраниние
@@ -123,7 +148,10 @@ public class CreateNoteActivity extends AppCompatActivity {
         if (layoutWebURL.getVisibility() == View.VISIBLE) {
             note.setWebLink(textWebURL.getText().toString());
         }
-
+        //we are setting ID of new note from already aviable note ... We hawe set onConflictStrategy to REPLACE in NoteDao .. New note is already in the database
+        if (alreadyAvailableNote != null) {
+            note.setId(alreadyAvailableNote.getId());
+        }
         @SuppressLint("StaticFieldLeak")
         class SaveNoteTask extends AsyncTask<Void, Void, Void> {
             @Override
@@ -227,6 +255,23 @@ public class CreateNoteActivity extends AppCompatActivity {
                 setSubtitleIndicator();
             }
         });
+        //Проверка Color in Miscellaneous menu
+        if (alreadyAvailableNote != null && alreadyAvailableNote.getColor() != null && alreadyAvailableNote.getColor().trim().isEmpty()) {
+            switch (alreadyAvailableNote.getColor()) {
+                case "EFB337":
+                    layoutMiscellaneous.findViewById(R.id.viewColor2).performClick();
+                    break;
+                case "FB4943":
+                    layoutMiscellaneous.findViewById(R.id.viewColor3).performClick();
+                    break;
+                case "344DFA":
+                    layoutMiscellaneous.findViewById(R.id.viewColor4).performClick();
+                    break;
+                case "000000":
+                    layoutMiscellaneous.findViewById(R.id.viewColor5).performClick();
+                    break;
+            }
+        }
         //layout Add Image
         layoutMiscellaneous.findViewById(R.id.layoutAddImage).setOnClickListener(new View.OnClickListener() {
             @Override

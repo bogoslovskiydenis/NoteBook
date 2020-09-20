@@ -16,17 +16,22 @@ import com.example.notebook.R;
 import com.example.notebook.adapters.NotesAdapter;
 import com.example.notebook.database.NotesDatabase;
 import com.example.notebook.entities.Note;
+import com.example.notebook.listeners.NotesListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NotesListener {
 
     public static final int REQUEST_CODE_ADD_NOTE = 1;
+    public static final int REQUEST_CODE_UPDATE_NOTE = 2;
+    public static final int REQUEST_CODE_SHOW_NOTE = 3;
 
     private RecyclerView notesRecyclerView;
     private List<Note> noteList;
     private NotesAdapter notesAdapter;
+
+    private int noteClickedPosition = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +53,27 @@ public class MainActivity extends AppCompatActivity {
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         );
         noteList = new ArrayList<>();
-        notesAdapter = new NotesAdapter(noteList);
+        notesAdapter = new NotesAdapter(noteList, this);
         notesRecyclerView.setAdapter(notesAdapter);
 
-        getNotes();
+        //getNotes() method is called from onCreate method of an activity
+        //application is just started we need to display all notes from the DB
+        //and why we are passing REQUEST_CODE_SHOW_NOTE
+
+        getNotes(REQUEST_CODE_SHOW_NOTE);
     }
 
-    private void getNotes() {
+    @Override
+    public void onNoteCliked(Note note, int position) {
+        noteClickedPosition = position;
+        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        intent.putExtra("isViewOrUpdate", true);
+        intent.putExtra("note ", note);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
+    }
+
+
+    private void getNotes(final int requestCode) {
 
         @SuppressLint("StaticFieldLeak")
         class GetNotesTask extends AsyncTask<Void, Void, List<Note>> {
@@ -68,23 +87,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(List<Note> notes) {
                 super.onPostExecute(notes);
-                /*
-                проверить , пуст ли список заметок, это означает, что приложение только что запущено, так как мы его объявили
-                в качестве глобальной переменной, в этом случае мы добавляем заметки из базы данных в эту заметку и notyfy
-                адаптер о новом наборе данных.
-                В другом случае, если список заметок не пуст, значит, заметки уже загружены из базы данных, поэтому мы
-                просто добавление только последней заметки в список заметок и адаптера nptify о вставленной новой заметке. И последнее
-                мы прокрутили наш recycler view наверх
-                */
-
-                if (noteList.size() == 0) {
+                //request code REQUEST_CODE_SHOW_NOTE ,so we are adding all notes from database to noteList and notify adapter about the new data set
+                if (requestCode == REQUEST_CODE_SHOW_NOTE) {
                     noteList.addAll(notes);
                     notesAdapter.notifyDataSetChanged();
-                } else {
+                    //request code REQUEST_CODE_ADD_NOTE , we are adding an only first note from database
+                } else if (requestCode == REQUEST_CODE_ADD_NOTE) {
                     noteList.add(0, notes.get(0));
                     notesAdapter.notifyItemInserted(0);
+                    notesRecyclerView.smoothScrollToPosition(0);
+                    //request REQUEST_CODE_UPDATE_NOTE removing from the clicked position and adding the latest update from same position
+                }else if(requestCode == REQUEST_CODE_UPDATE_NOTE){
+                    noteList.remove(noteClickedPosition);
+                    noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
+                    notesAdapter.notifyItemChanged(noteClickedPosition);
                 }
-                notesRecyclerView.smoothScrollToPosition(0);
             }
         }
         new GetNotesTask().execute();
@@ -93,8 +110,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK){
-            getNotes();
+        if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
+            //this getNotes method called from the onActivityResult .and we checked the current request is for add note and the result is RESULT_Ok
+            //add from CreateNote activiy and its result is sent back to this activity
+            getNotes(REQUEST_CODE_ADD_NOTE);
+        } else if (requestCode == REQUEST_CODE_ADD_NOTE && requestCode == RESULT_OK) {
+            if (data != null) {
+                //RESULT_Ok already available note is update from CreateNOte and result back to this activity
+                getNotes(REQUEST_CODE_UPDATE_NOTE);
+            }
         }
     }
+
+
 }

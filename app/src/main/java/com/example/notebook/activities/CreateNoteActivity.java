@@ -103,7 +103,26 @@ public class CreateNoteActivity extends AppCompatActivity {
             alreadyAvailableNote = (Note) getIntent().getSerializableExtra("note");
             setViewOrUpdateNote();
         }
+        //реализация delete WebUrl
+        findViewById(R.id.imageRemoveWebUrl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textWebURL.setText(null);
+                layoutWebURL.setVisibility(View.GONE);
+            }
+        });
+        //Реализация delete image
+      findViewById(R.id.imageRemoveImage).setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View view) {
+              imageNote.setImageBitmap(null);
+              imageNote.setVisibility(View.GONE);
+              findViewById(R.id.imageRemoveImage).setVisibility(View.GONE);
+              selectedImagePath = "";
+          }
+      });
 
+        //выдвижное меню Другое
         initMiscellaneous();
         //Индикатор Цвета
         setSubtitleIndicator();
@@ -119,6 +138,8 @@ public class CreateNoteActivity extends AppCompatActivity {
         if (alreadyAvailableNote.getImagePath() != null && alreadyAvailableNote.getImagePath().trim().isEmpty()) {
             imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
             imageNote.setVisibility(View.VISIBLE);
+            //если Удалить image
+            findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
             selectedImagePath = alreadyAvailableNote.getImagePath();
         }
         if (alreadyAvailableNote.getImagePath() != null && alreadyAvailableNote.getWebLink().trim().isEmpty()) {
@@ -336,6 +357,8 @@ public class CreateNoteActivity extends AppCompatActivity {
                         Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                         imageNote.setImageBitmap(bitmap);
                         imageNote.setVisibility(View.VISIBLE);
+                        //imageRemoveImage - Visible
+                        findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
 
                         selectedImagePath = getPathFromUri(selectedImageUri);
 

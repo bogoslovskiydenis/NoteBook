@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         //application is just started we need to display all notes from the DB
         //and why we are passing REQUEST_CODE_SHOW_NOTE
 
-        getNotes(REQUEST_CODE_SHOW_NOTE);
+        getNotes(REQUEST_CODE_SHOW_NOTE, false);
     }
 
     @Override
-    public void onNoteCliked(Note note, int position) {
+    public void onNoteClicked(Note note, int position) {
         noteClickedPosition = position;
         Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
         intent.putExtra("isViewOrUpdate", true);
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
     }
 
 
-    private void getNotes(final int requestCode) {
+    private void getNotes(final int requestCode, final boolean isNoteDeleted) {
 
         @SuppressLint("StaticFieldLeak")
         class GetNotesTask extends AsyncTask<Void, Void, List<Note>> {
@@ -97,10 +97,20 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                     notesAdapter.notifyItemInserted(0);
                     notesRecyclerView.smoothScrollToPosition(0);
                     //request REQUEST_CODE_UPDATE_NOTE removing from the clicked position and adding the latest update from same position
-                }else if(requestCode == REQUEST_CODE_UPDATE_NOTE){
+                    // if request is REQUEST_CODE_UPDATE_NOTE First , we remove note from list. Than we checked note deleted or not.
+                    //if the note deleted then notify adapter about item removed
+                    //if the is not deleted it must be updated
+                } else if (requestCode == REQUEST_CODE_UPDATE_NOTE) {
                     noteList.remove(noteClickedPosition);
                     noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
                     notesAdapter.notifyItemChanged(noteClickedPosition);
+
+                    if (isNoteDeleted) {
+                        notesAdapter.notifyItemRemoved(noteClickedPosition);
+                    } else {
+                        noteList.add(noteClickedPosition, notes.get(noteClickedPosition));
+                        notesAdapter.notifyItemChanged(noteClickedPosition);
+                    }
                 }
             }
         }
@@ -113,11 +123,12 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         if (requestCode == REQUEST_CODE_ADD_NOTE && resultCode == RESULT_OK) {
             //this getNotes method called from the onActivityResult .and we checked the current request is for add note and the result is RESULT_Ok
             //add from CreateNote activiy and its result is sent back to this activity
-            getNotes(REQUEST_CODE_ADD_NOTE);
+            getNotes(REQUEST_CODE_ADD_NOTE, false);
         } else if (requestCode == REQUEST_CODE_ADD_NOTE && requestCode == RESULT_OK) {
             if (data != null) {
                 //RESULT_Ok already available note is update from CreateNOte and result back to this activity
-                getNotes(REQUEST_CODE_UPDATE_NOTE);
+                //REQUEST_CODE_UPDATE_NOTE we are update already available note from Db and its may be possible that note get deleted as a parameter isNoteDeleted , we are passing value from CreateNoteActivity
+                getNotes(REQUEST_CODE_UPDATE_NOTE, data.getBooleanExtra("isNoteDeleted", false));
             }
         }
     }

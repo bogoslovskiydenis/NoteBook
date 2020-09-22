@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -59,8 +62,28 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         //getNotes() method is called from onCreate method of an activity
         //application is just started we need to display all notes from the DB
         //and why we are passing REQUEST_CODE_SHOW_NOTE
-
         getNotes(REQUEST_CODE_SHOW_NOTE, false);
+
+        //inputSearch
+        EditText inputSearch = findViewById(R.id.inputSearch);
+        inputSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int count, int after) {
+                notesAdapter.cancelTimer();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(noteList.size() !=0){
+                    notesAdapter.searchNotes(editable.toString());
+                }
+            }
+        });
     }
 
     @Override

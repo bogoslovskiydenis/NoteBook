@@ -14,20 +14,20 @@
     <TextView
         android:id="@+id/textMiscellaneous"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="40dp"
         android:fontFamily="@font/ubuntu_medium"
         android:gravity="center"
         android:includeFontPadding="false"
         android:text="@string/miscellaneous"
         android:textColor="@color/colorWhite"
-        android:textSize="@dimen/_13ssp" />
+        android:textSize="13dp" />
 
     <LinearLayout
         android:id="@+id/layoutNoteColor"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_margin="10dp"
         android:orientation="horizontal">
 
 
@@ -39,16 +39,16 @@
 
             <View
                 android:id="@+id/viewColor1"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:background="@drawable/background_note_color_1" />
 
             <ImageView
                 android:id="@+id/imageColor1"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
+                android:padding="10dp"
                 android:src="@drawable/ic_done"
                 app:tint="@color/colorWhite" />
 
@@ -62,16 +62,16 @@
 
             <View
                 android:id="@+id/viewColor2"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:background="@drawable/background_note_color_2" />
 
             <ImageView
                 android:id="@+id/imageColor2"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
+                android:padding="10dp"
                 android:src="@drawable/background_note_color_2"
                 app:tint="@color/colorNoteColor2" />
         </FrameLayout>
@@ -84,16 +84,16 @@
 
             <View
                 android:id="@+id/viewColor3"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:background="@drawable/background_note_color_3" />
 
             <ImageView
                 android:id="@+id/imageColor3"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
+                android:padding="10dp"
                 android:src="@drawable/background_note_color_3"
                 app:tint="@color/colorNoteColor3" />
         </FrameLayout>
@@ -106,16 +106,16 @@
 
             <View
                 android:id="@+id/viewColor4"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:background="@drawable/background_note_color_4" />
 
             <ImageView
                 android:id="@+id/imageColor4"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
+                android:padding="10dp"
                 android:src="@drawable/background_note_color_4"
                 app:tint="@color/colorNoteColor4" />
         </FrameLayout>
@@ -128,16 +128,16 @@
 
             <View
                 android:id="@+id/viewColor5"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:background="@drawable/background_note_color_5" />
 
             <ImageView
                 android:id="@+id/imageColor5"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_35sdp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:contentDescription="@string/app_name"
-                android:padding="@dimen/_10sdp"
+                android:padding="10dp"
                 android:src="@drawable/background_note_color_5"
                 app:tint="@color/colorNoteColor5" />
         </FrameLayout>
@@ -149,21 +149,21 @@
             android:includeFontPadding="false"
             android:text="@string/pick_color"
             android:textColor="@color/colorWhite"
-            android:textSize="@dimen/_13ssp" />
+            android:textSize="13sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutAddImage"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_margin="@dimen/_10sdp"
+        android:layout_height="35dp"
+        android:layout_margin="35dp"
         android:gravity="center_vertical"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_image"
             app:tint="@color/colorIcons" />
@@ -171,28 +171,28 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/ubuntu_medium"
             android:text="@string/add_image"
             android:textColor="@color/colorIcons"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutAddUrl"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         tools:ignore="UseCompoundDrawables">
 
         <ImageView
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:contentDescription="@string/app_name"
             android:src="@drawable/ic_web_link"
             app:tint="@color/colorIcons" />
@@ -200,29 +200,29 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginStart="10dp"
             android:fontFamily="@font/ubuntu_medium"
             android:includeFontPadding="false"
             android:text="@string/add_url"
             android:textColor="@color/colorIcons"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="12sp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/layoutDeleteNote"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:visibility="gone"
         tools:ignore="UseCompoundDrawables">
 
     <ImageView
-        android:layout_width="@dimen/_22sdp"
-        android:layout_height="@dimen/_22sdp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:contentDescription="@string/app_name"
         android:src="@drawable/ic_delete"
         app:tint="@color/colorDelete" />
@@ -230,12 +230,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
+        android:layout_marginStart="10dp"
         android:fontFamily="@font/ubuntu_medium"
         android:includeFontPadding="false"
         android:text="@string/delete_note"
         android:textColor="@color/colorDelete"
-        android:textSize="@dimen/_12ssp" />
+        android:textSize="12sp" />
     </LinearLayout>
 
 </LinearLayout>

@@ -133,11 +133,10 @@
                 android:contentDescription="@string/app_name"
                 android:padding="@dimen/_4sdp"
                 android:src="@drawable/ic_delete"
-                android:tint="@color/colorWhite"
                 android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="@id/imageNote"
                 app:layout_constraintTop_toTopOf="@id/imageNote"
-                />
+                app:tint="@color/colorWhite" />
 
 
             <LinearLayout
@@ -169,8 +168,7 @@
                     android:layout_height="@dimen/_20sdp"
                     android:contentDescription="@string/app_name"
                     android:src="@drawable/ic_delete"
-                    android:tint="@color/colorDelete"
-                    />
+                    app:tint="@color/colorDelete" />
 
             </LinearLayout>
 

@@ -2,7 +2,7 @@
 This Notebook was created for android minSDK 19 , targetSDk 30 
 Notepad was created for keeping records, adding photos, links
 
-![Main Menu] (https://github.com/bogoslovskiydenis/NoteBook/blob/master/MainMenu.jpg)                     ![Create Notes] (https://github.com/bogoslovskiydenis/NoteBook/blob/master/CreateNotes.jpg)
+![Main Menu](https://github.com/bogoslovskiydenis/NoteBook/blob/master/MainMenu.jpg)             ![Create Notes](https://github.com/bogoslovskiydenis/NoteBook/blob/master/CreateNotes.jpg)
 
 
 Used libraries

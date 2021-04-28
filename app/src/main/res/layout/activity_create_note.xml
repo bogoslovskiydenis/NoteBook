@@ -193,7 +193,7 @@
                 android:textColorHint="@color/colorTextHint"
                 android:textSize="@dimen/_13ssp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/layoutWebURL" />
+                app:layout_constraintTop_toBottomOf="@id/imageNote" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

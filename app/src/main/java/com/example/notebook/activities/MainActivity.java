@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         //and why we are passing REQUEST_CODE_SHOW_NOTE
         getNotes(REQUEST_CODE_SHOW_NOTE, false);
 
+
         //inputSearch
         EditText inputSearch = findViewById(R.id.inputSearch);
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -110,15 +111,15 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             }
         });
         //Add image from quick actions
-        findViewById(R.id.imageNote).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.imageAddImage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (ContextCompat.checkSelfPermission(
-                        getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE
+                        getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(
                             MainActivity.this,
-                            new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             REQUEST_CODE_STORAGE_PERMISSION
                     );
                 } else {
@@ -133,6 +134,15 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                 showAddURLDialog();
             }
         });
+    }
+
+    @Override
+    public void onNoteClicked(Note note, int position) {
+        noteClickedPosition = position;
+        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+        intent.putExtra("isViewOrUpdate", true);
+        intent.putExtra("notes", note);
+        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
     }
 
     private void selectImage() {
@@ -168,14 +178,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
         return filePath;
     }
 
-    @Override
-    public void onNoteClicked(Note note, int position) {
-        noteClickedPosition = position;
-        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
-        intent.putExtra("isViewOrUpdate", true);
-        intent.putExtra("note ", note);
-        startActivityForResult(intent, REQUEST_CODE_UPDATE_NOTE);
-    }
+
 
 
     private void getNotes(final int requestCode, final boolean isNoteDeleted) {

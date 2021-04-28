@@ -43,9 +43,7 @@ import java.util.Locale;
 
 public class CreateNoteActivity extends AppCompatActivity {
 
-    private EditText inputNoteTitle;
-    private EditText inputNoteSubtitle;
-    private EditText inputNoteText;
+    private EditText inputNoteTitle, inputNoteSubtitle, inputNoteText;
     private TextView textDataTime;
     private View viewSubtitleIndicator;
     private ImageView imageNote;
@@ -103,56 +101,43 @@ public class CreateNoteActivity extends AppCompatActivity {
         selectedImagePath = "";
         //Проверка REQUEST_CODE_UPDATE_NOTE в noteClickedPosition (isViewOrUpdate , note) in MainActivity
         if (getIntent().getBooleanExtra("isViewOrUpdate", false)) {
-            alreadyAvailableNote = (Note) getIntent().getSerializableExtra("notes");
+            alreadyAvailableNote = (Note) getIntent().getSerializableExtra("note");
             setViewOrUpdateNote();
         }
-//        //реализация delete WebUrl
-//        findViewById(R.id.imageRemoveWebUrl).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                textWebURL.setText(null);
-//                layoutWebURL.setVisibility(View.GONE);
-//            }
-//        });
-//        //Реализация delete image
-//        findViewById(R.id.imageRemoveImage).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                imageNote.setImageBitmap(null);
-//                imageNote.setVisibility(View.GONE);
-//                findViewById(R.id.imageRemoveImage).setVisibility(View.GONE);
-//                selectedImagePath = "";
-//            }
-//        });
-//        if (getIntent().getBooleanExtra("isFromQuickActions", false)) {
-//            String type = getIntent().getStringExtra("quickActionsType");
-//            if (type != null && type.equals("image")) {
-//                {
-//                    selectedImagePath = getIntent().getStringExtra("imagePath");
-//                    imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
-//                    imageNote.setVisibility(View.VISIBLE);
-//                    findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
-//                }
-//                if (type.equals("URL")) {
-//                    textWebURL.setText(getIntent().getStringExtra("URL"));
-//                    layoutWebURL.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }
-//        if(getIntent().getBooleanExtra("isFromQuickActions",false)){
-//            String type = getIntent().getStringExtra("quickActionsType");
-//            if(type != null){
-//                if(type.equals("image")){
-//                    selectedImagePath =getIntent().getStringExtra("imagePath");
-//                    imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
-//                    imageNote.setVisibility(View.VISIBLE);
-//                    findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
-//                } else if (type.equals("URL")){
-//                    textWebURL.setText(getIntent().getStringExtra("URL"));
-//                    layoutWebURL.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        }
+        //реализация delete WebUrl
+        findViewById(R.id.imageRemoveWebUrl).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                textWebURL.setText(null);
+                layoutWebURL.setVisibility(View.GONE);
+            }
+        });
+        //Реализация delete image
+        findViewById(R.id.imageRemoveImage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                imageNote.setImageBitmap(null);
+                imageNote.setVisibility(View.GONE);
+                findViewById(R.id.imageRemoveImage).setVisibility(View.GONE);
+                selectedImagePath = "";
+            }
+        });
+        if (getIntent().getBooleanExtra("isFromQuickActions", false)) {
+            String type = getIntent().getStringExtra("quickActionsType");
+            if (type != null && type.equals("image")) {
+                {
+                    selectedImagePath = getIntent().getStringExtra("imagePath");
+                    imageNote.setImageBitmap(BitmapFactory.decodeFile(selectedImagePath));
+                    imageNote.setVisibility(View.VISIBLE);
+                    findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
+                }
+                if (type.equals("URL")) {
+                    textWebURL.setText(getIntent().getStringExtra("URL"));
+                    layoutWebURL.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
         //выдвижное меню Другое
         initMiscellaneous();
         //Индикатор Цвета
@@ -169,10 +154,11 @@ public class CreateNoteActivity extends AppCompatActivity {
         if (alreadyAvailableNote.getImagePath() != null && alreadyAvailableNote.getImagePath().trim().isEmpty()) {
             imageNote.setImageBitmap(BitmapFactory.decodeFile(alreadyAvailableNote.getImagePath()));
             imageNote.setVisibility(View.VISIBLE);
+            //если Удалить image
             findViewById(R.id.imageRemoveImage).setVisibility(View.VISIBLE);
             selectedImagePath = alreadyAvailableNote.getImagePath();
         }
-        if  (alreadyAvailableNote.getWebLink() != null && alreadyAvailableNote.getWebLink().trim().isEmpty()) {
+        if (alreadyAvailableNote.getImagePath() != null && alreadyAvailableNote.getWebLink().trim().isEmpty()) {
             textWebURL.setText(alreadyAvailableNote.getWebLink());
             layoutWebURL.setVisibility(View.VISIBLE);
         }

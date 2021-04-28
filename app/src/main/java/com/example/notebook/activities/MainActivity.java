@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
             }
         });
         //quick Actions
-        findViewById(R.id.imageAddImage).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.imageAddNote).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(getApplicationContext(), CreateNoteActivity.class), REQUEST_CODE_ADD_NOTE);
@@ -283,14 +283,13 @@ public class MainActivity extends AppCompatActivity implements NotesListener {
                     } else if (Patterns.WEB_URL.matcher(inputURL.getText().toString()).matches()) {
                         Toast.makeText(MainActivity.this, "Enter valid URL", Toast.LENGTH_SHORT).show();
                     } else {
-
+                        Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
+                        intent.putExtra("isFromQuickActions", true);
+                        intent.putExtra("quickActionsType", "URL");
+                        intent.putExtra("URL", inputURL.getText().toString());
+                        startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
+                        dialogAddUrl.dismiss();
                     }
-                    Intent intent = new Intent(getApplicationContext(), CreateNoteActivity.class);
-                    intent.putExtra("isFromQuickActions", true);
-                    intent.putExtra("quickActionsType", "URL");
-                    intent.putExtra("URL", inputURL.getText().toString());
-                    startActivityForResult(intent, REQUEST_CODE_ADD_NOTE);
-                    dialogAddUrl.dismiss();
                 }
             });
             //Cancel
